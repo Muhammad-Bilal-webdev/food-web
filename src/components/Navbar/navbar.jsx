@@ -28,7 +28,7 @@ const Navbar = ({setshowlogin}) => {
                         </li>
 
                         <li className="nav-item">
-                        <Link to='./exploremenu/Exploremenu.jsx'>       <a onClick={() => setmenu("menu")} id={menu === "menu" ? "active" : ""} className="nav-link active" aria-current="page" href="#">Menu </a>  </Link>
+                          <a onClick={() => setmenu("menu")} id={menu === "menu" ? "active" : ""} className="nav-link active" aria-current="page" href="#">Menu </a> 
                         </li>
 
                         <li className="nav-item">

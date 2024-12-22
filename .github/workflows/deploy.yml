@@ -1,58 +1,49 @@
-name: Deploy to GitHub Pages
+name: Deploy
 
 on:
   push:
     branches:
-      - main  # Trigger deployment only on pushes to the 'main' branch
+      - main
 
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      # Step 2: Setup Node.js
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v3
-        with:
-          node-version: 16  # Set your Node.js version here (update as needed)
 
-      # Step 3: Install dependencies
       - name: Install dependencies
-        run: npm install
+        uses: bahmutov/npm-install@v1
 
-      # Step 4: Build the project
       - name: Build project
         run: npm run build
 
-      # Step 5: Upload production-ready build files as an artifact
       - name: Upload production-ready build files
-        uses: actions/upload-artifact@v4  # Ensure using v4
+        uses: actions/upload-artifact@v3
         with:
-          name: production-files  # Name of the artifact
-          path: ./dist  # Ensure this is the correct build output directory
+          name: production-files
+          path: ./dist
 
   deploy:
-    name: Deploy to GitHub Pages
-    needs: build  # Ensure deploy only runs if build is successful
-    runs-on: ubuntu-22.04
-    if: github.ref == 'refs/heads/main' && success()  # Ensure deploy runs on main branch and build success
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
     steps:
-      # Step 1: Download the build artifact from the build job
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: production-files  # Ensure this matches the name used in the build job
-          path: ./dist  # Ensure this matches the directory where the files should be downloaded
+          name: production-files
+          path: ./dist
 
-      # Step 2: Deploy the project to GitHub Pages using peaceiris/actions-gh-pages action
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub automatically provides this token
-          publish_dir: ./dist  # Ensure this matches the build output directory
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

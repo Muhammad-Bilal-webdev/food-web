@@ -1,13 +1,11 @@
 {
-  "homepage": "https://Muhammad-Bilal-webdev.github.io/food-web",
+  
   "name": "resturant",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "predeply":"npm run build",
-    "deploy": "gh-pages -d build",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
